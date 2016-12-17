@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"path/filepath"
 	"strconv"
 	"strings"
 
@@ -111,10 +110,8 @@ func (p *Process) GenerateArgs(opts *ArgOptions) []string {
 			if err != nil {
 				log.Fatal(err)
 			}
-			hostPath, err := filepath.Abs(fmt.Sprintf("%s/.convox/volumes/%s/%s/%s", home, p.app, p.service.Name, volume))
-			if err != nil {
-				//this won't break
-			}
+			fmt.Printf("SKIPPING HOME %+v\n", home)
+			hostPath := fmt.Sprintf("/volumes/%s/%s/%s", p.app, p.service.Name, volume)
 			volume = fmt.Sprintf("%s:%s", hostPath, volume)
 		}
 		args = append(args, "-v", volume)
